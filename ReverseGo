@@ -1,0 +1,39 @@
+#include <Adafruit_NeoPixel.h>
+
+//define NeoPixel Pin and Number of LEDs
+#define PIN 6
+#define NUM_LEDS 60
+
+//create a NeoPixel strip
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_LEDS, PIN, NEO_GRB + NEO_KHZ800);
+
+
+void setup() {
+  // start the strip and blank it out
+  strip.begin();
+  strip.show();
+}
+
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  int i = 60;
+  while (true) {
+    strip.setPixelColor(i, strip.Color(255, 0, 0));
+    strip.show();
+    delay(1);
+    i--;
+    if ( i > 0) {
+      strip.setPixelColor(i, strip.Color(255, 0, 0));
+      delay(50);
+      strip.setPixelColor(i + 1, strip.Color(0, 0, 0));
+      strip.show();
+    } else {
+      strip.setPixelColor(0, strip.Color(0, 0, 0));
+      strip.show();
+      strip.setPixelColor(1, strip.Color(0, 0, 0));
+      strip.show();
+      i = 60;
+    }
+  }
+}
