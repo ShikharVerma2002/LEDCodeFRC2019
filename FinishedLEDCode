@@ -9,13 +9,13 @@
 #define PIN            6
 
 //How many NeoPixels are attached to the Arduino ?
-#define NUMPIXELS      120
+#define NUMPIXELS      94
 
 //When we setup the NeoPixel library, we tell it how many pixels, and which pin to use to send signals.
 //Note that for older NeoPixel strips you might need to change the third parameter--see the strandtest
 //example for more information on possible values.
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
-byte state = 0;
+byte state = 255;
 int range = 10;
 int goffset = 0;
 int roffset = range * 2;
@@ -73,59 +73,50 @@ void setup() {
 }
 
 void loop() {
+  //    while (true) {
+  //      if (state < 0x7f) {
+  //        clearLeds();
+  //        strips_loop();
+  //      }
 
-  while (true) {
-    if (state < 0x7f) {
-      clearLeds();
-    }
-    switch (state) {
-      case 0:
-        clearLeds();
-        hatchGripped();
-        break;
-      case 1:
-        clearLeds();
-        hatchOpen();
-        break;
-      case 2:
-        clearLeds();
-        levelTwo;
-        break;
-      case 3:
-        clearLeds();
-        levelThree;
-        break;
-      case 4:
-        clearLeds();
-        driveForward();
-        break;
-      case 5:
-        clearLeds();
-        driveBack();
-        break;
-      case 6:
-        clearLeds();
-        driveRight();
-        break;
-      case 7:
-        clearLeds();
-        driveLeft();
-        break;
-      case 8:
-        clearLeds();
-        ballIntake();
-        break;
-      case 9:
-        clearLeds();
-        ballShoot();
-        break;
-      default:
+  switch (state) {
+    case 0:
+      hatchGripped();
+      break;
+    case 1:
+      hatchOpen();
+      break;
+    case 2:
+      levelTwo();
+      break;
+    case 3:
+      levelThree();
+      break;
+    //    case 4:
+    //      driveForward();
+    //      break;
+    //    case 5:
+    //      driveBack();
+    //      break;
+    case 4:
+      driveRight();
+      break;
+    case 5:
+      driveLeft();
+      break;
+    case 6:
+      ballIntake();
+      break;
+    case 7:
+      ballShoot();
+      break;
+    default:
       strips_loop();
       break;
-    }
-      delay(1000);   
   }
+  delay(250);
 }
+
 
 void receiveEvent(int howMany) {
   byte thisState = 0;
@@ -207,43 +198,59 @@ void clearLeds() {
 //--------------------------RobotFunctionCode------------------------------------------
 
 void hatchGripped() {
-  int  i = 10;
-  int  j = 70;
-  while (true) {
-    pixels.setPixelColor(i, pixels.Color(255, 0, 0));
-    pixels.setPixelColor(j, pixels.Color(255, 0, 0));
-    pixels.show();
-    delay(1);
-    i++;
-    j++;
-    if ( i < 19, j < 79) {
-      pixels.setPixelColor(i, pixels.Color(255, 0, 0));
-      pixels.show();
-    }
+  int  i = 0;
+  int  j = 93;
+  for (i = 0; i < 11; i++) {
+    pixels.setPixelColor(i, pixels.Color(0, 255, 0));
   }
+  pixels.show();
+  for (j = 93; j > 81; j--) {
+    pixels.setPixelColor(j, pixels.Color(0, 255, 0));
+  }
+  pixels.show();
+  //  while (true) {
+  //    pixels.setPixelColor(i, pixels.Color(0, 255, 0));
+  //    pixels.setPixelColor(j, pixels.Color(0, 255, 0));
+  //    pixels.show();
+  //    delay(1);
+  //    i++;
+  //    j--;
+  //    if ( i < 11, j > 81) {
+  //      pixels.setPixelColor(i, pixels.Color(0, 255, 0));
+  //      pixels.show();
+  //    }
+  //  }
 }
 
 void hatchOpen() {
-  int  i = 10;
-  int  j = 70;
-  while (true) {
-    pixels.setPixelColor(i, pixels.Color(255, 255, 0));
-    pixels.setPixelColor(j, pixels.Color(255, 255, 0));
-    pixels.show();
-    delay(1);
-    i++;
-    j++;
-    if ( i < 19, j < 79) {
-      pixels.setPixelColor(i, pixels.Color(255, 255, 0));
-      pixels.setPixelColor(j, pixels.Color(255, 255, 0));
-      pixels.show();
-    }
+  int  i = 0;
+  int  j = 93;
+  for (i = 0; i < 93; i++) {
+    pixels.setPixelColor(i, pixels.Color(0, 255, 0));
   }
+  pixels.show();
+  for (j = 93; j > 81; j--) {
+    pixels.setPixelColor(j, pixels.Color(0, 255, 0));
+  }
+  pixels.show();
+  //  while (true) {
+  //    pixels.setPixelColor(i, pixels.Color(255, 255, 0));
+  //    pixels.setPixelColor(j, pixels.Color(255, 255, 0));
+  //    pixels.show();
+  //    delay(1);
+  //    i++;
+  //    j++;
+  //    if ( i < 23, j > 81) {
+  //      pixels.setPixelColor(i, pixels.Color(255, 255, 0));
+  //      pixels.setPixelColor(j, pixels.Color(255, 255, 0));
+  //      pixels.show();
+  //    }
+  //  }
 }
 
 void yaw() {
   int i = 0;
-  int j = 60;
+  int j = 47;
   while (true) {
     pixels.setPixelColor(i, pixels.Color(0, 0, 255));
     pixels.setPixelColor(j, pixels.Color(0, 0, 255));
@@ -251,7 +258,7 @@ void yaw() {
     delay(1);
     i++;
     j++;
-    if (i < 9, j < 69) {
+    if (i < 10, j < 57) {
       pixels.setPixelColor(i, pixels.Color(0, 0, 255));
       pixels.setPixelColor(j, pixels.Color(0, 0, 255));
       pixels.show();
@@ -260,187 +267,228 @@ void yaw() {
 }
 
 void levelTwo() {
-  int i = 0;
-  int j = 60;
-  while (true) {
-    pixels.setPixelColor(i, pixels.Color(255, 20, 147));
-    pixels.setPixelColor(j, pixels.Color(255, 20, 147));
-    pixels.show();
-    delay(1);
-    i++;
-    j++;
-    if ( i < 19, j < 79) {
-      pixels.setPixelColor(i, pixels.Color(255, 20, 147));
-      pixels.setPixelColor(j, pixels.Color(255, 20, 147));
-      delay(50);
-      pixels.setPixelColor(i - 1, pixels.Color(0, 0, 0));
-      pixels.setPixelColor(j - 1, pixels.Color(0, 0, 0));
-      pixels.show();
-    } else {
-      pixels.setPixelColor (i, pixels.Color(0, 0, 0));
-      pixels.setPixelColor (j, pixels.Color(0, 0, 0));
-      pixels.show();
-    }
+  int i = 46;
+  int j = 47;
+  for (i = 46; i > 0; i--) {
+    pixels.setPixelColor(i, pixels.Color(0, 255, 0));
   }
+  pixels.show();
+  for (j = 47; j < 93; j++) {
+    pixels.setPixelColor(j, pixels.Color(0, 255, 0));
+  }
+  pixels.show();
+  //  while (true) {
+  //    pixels.setPixelColor(i, pixels.Color(255, 20, 147));
+  //    pixels.setPixelColor(j, pixels.Color(255, 20, 147));
+  //    pixels.show();
+  //    delay(1);
+  //    i++;
+  //    j++;
+  //    if ( i < 10, j < 57) {
+  //      pixels.setPixelColor(i, pixels.Color(255, 20, 147));
+  //      pixels.setPixelColor(j, pixels.Color(255, 20, 147));
+  //      delay(50);
+  //      pixels.setPixelColor(i - 1, pixels.Color(0, 0, 0));
+  //      pixels.setPixelColor(j - 1, pixels.Color(0, 0, 0));
+  //      pixels.show();
+  //    } else {
+  //      pixels.setPixelColor (i, pixels.Color(0, 0, 0));
+  //      pixels.setPixelColor (j, pixels.Color(0, 0, 0));
+  //      pixels.show();
+  //    }
+  //  }
 }
 
 void levelThree() {
-  int i = 0;
-  int j = 60;
-  while (true) {
-    pixels.setPixelColor(i, pixels.Color(255, 20, 147));
-    pixels.setPixelColor(j, pixels.Color(255, 20, 147));
-    pixels.show();
-    delay(1);
-    i++;
-    j++;
-    if ( i < 19, j < 79) {
-      pixels.setPixelColor(i, pixels.Color(255, 20, 147));
-      pixels.setPixelColor(j, pixels.Color(255, 20, 147));
-      delay(50);
-      pixels.setPixelColor(i - 1, pixels.Color(0, 0, 0));
-      pixels.setPixelColor(j - 1, pixels.Color(0, 0, 0));
-      pixels.show();
-    } else {
-      pixels.setPixelColor (i, pixels.Color(0, 0, 0));
-      pixels.setPixelColor (j, pixels.Color(0, 0, 0));
-      pixels.show();
-      i = 0;
-      j = 60;
-    }
+  int i = 46;
+  int j = 47;
+  for (i = 46; i > 0; i--) {
+    pixels.setPixelColor(i, pixels.Color(0, 255, 0));
+    pixels.setPixelColor(i - 1, pixels.Color(0, 0, 0));
   }
+  pixels.show();
+  for (j = 47; j < 93; j++) {
+    pixels.setPixelColor(j, pixels.Color(0, 255, 0));
+    pixels.setPixelColor(j - 1, pixels.Color(0, 0, 0));
+  }
+  pixels.show();
+  //  while (true) {
+  //    pixels.setPixelColor(i, pixels.Color(255, 20, 147));
+  //    pixels.setPixelColor(j, pixels.Color(255, 20, 147));
+  //    pixels.show();
+  //    delay(1);
+  //    i++;
+  //    j++;
+  //    if ( i < 10, j < 57) {
+  //      pixels.setPixelColor(i, pixels.Color(255, 20, 147));
+  //      pixels.setPixelColor(j, pixels.Color(255, 20, 147));
+  //      delay(50);
+  //      pixels.setPixelColor(i - 1, pixels.Color(0, 0, 0));
+  //      pixels.setPixelColor(j - 1, pixels.Color(0, 0, 0));
+  //      pixels.show();
+  //    } else {
+  //      pixels.setPixelColor (i, pixels.Color(0, 0, 0));
+  //      pixels.setPixelColor (j, pixels.Color(0, 0, 0));
+  //      pixels.show();
+  //      i = 0;
+  //      j = 47;
+  //    }
+  //  }
 }
 
 void driveForward() {
-  int i = 40;
-  int j = 100;
-  while (true) {
-    pixels.setPixelColor(i, pixels.Color(255, 20, 147));
-    pixels.setPixelColor(j, pixels.Color(255, 20, 147));
-    pixels.show();
-    delay(1);
-    i++;
-    j++;
-    if ( i < 59, j < 119) {
-      pixels.setPixelColor(i, pixels.Color(255, 20, 147));
-      pixels.setPixelColor(j, pixels.Color(255, 20, 147));
-      delay(50);
-      pixels.setPixelColor(i - 1, pixels.Color(0, 0, 0));
-      pixels.setPixelColor(j - 1, pixels.Color(0, 0, 0));
-      pixels.show();
-    } else {
-      pixels.setPixelColor (i, pixels.Color(0, 0, 0));
-      pixels.setPixelColor (j, pixels.Color(0, 0, 0));
-      pixels.show();
-      i = 40;
-      j = 100;
-    }
-  }
+  int i = 0;
+  int j = 47;
+  //  while (true) {
+  //    pixels.setPixelColor(i, pixels.Color(255, 20, 147));
+  //    pixels.setPixelColor(j, pixels.Color(255, 20, 147));
+  //    pixels.show();
+  //    delay(1);
+  //    i++;
+  //    j++;
+  //    if ( i < 46, j < 93) {
+  //      pixels.setPixelColor(i, pixels.Color(255, 20, 147));
+  //      pixels.setPixelColor(j, pixels.Color(255, 20, 147));
+  //      delay(50);
+  //      pixels.setPixelColor(i - 1, pixels.Color(0, 0, 0));
+  //      pixels.setPixelColor(j - 1, pixels.Color(0, 0, 0));
+  //      pixels.show();
+  //    } else {
+  //      pixels.setPixelColor (i, pixels.Color(0, 0, 0));
+  //      pixels.setPixelColor (j, pixels.Color(0, 0, 0));
+  //      pixels.show();
+  //      i = 0;
+  //      j = 47;
+  //    }
+  //  }
 }
 
 void driveBack() {
-  int i = 59;
-  int j = 119;
-  while (true) {
-    pixels.setPixelColor(i, pixels.Color(255, 20, 147));
-    pixels.setPixelColor(j, pixels.Color(255, 20, 147));
-    pixels.show();
-    delay(1);
-    i--;
-    j--;
-    if ( i > 40, j > 100) {
-      pixels.setPixelColor(i, pixels.Color(255, 20, 147));
-      pixels.setPixelColor(j, pixels.Color(255, 20, 147));
-      delay(50);
-      pixels.setPixelColor(i + 1, pixels.Color(0, 0, 0));
-      pixels.setPixelColor(j + 1, pixels.Color(0, 0, 0));
-      pixels.show();
-    } else {
-      pixels.setPixelColor (i, pixels.Color(0, 0, 0));
-      pixels.setPixelColor (j, pixels.Color(0, 0, 0));
-      pixels.show();
-      i = 59;
-      j = 119;
-    }
-  }
+  int i = 46;
+  int j = 93;
+  //  while (true) {
+  //    pixels.setPixelColor(i, pixels.Color(255, 20, 147));
+  //    pixels.setPixelColor(j, pixels.Color(255, 20, 147));
+  //    pixels.show();
+  //    delay(1);
+  //    i--;
+  //    j--;
+  //    if ( i > 0, j > 47) {
+  //      pixels.setPixelColor(i, pixels.Color(255, 20, 147));
+  //      pixels.setPixelColor(j, pixels.Color(255, 20, 147));
+  //      delay(50);
+  //      pixels.setPixelColor(i + 1, pixels.Color(0, 0, 0));
+  //      pixels.setPixelColor(j + 1, pixels.Color(0, 0, 0));
+  //      pixels.show();
+  //    } else {
+  //      pixels.setPixelColor (i, pixels.Color(0, 0, 0));
+  //      pixels.setPixelColor (j, pixels.Color(0, 0, 0));
+  //      pixels.show();
+  //      i = 46;
+  //      j = 93;
+  //    }
+  //  }
 }
 
 void driveRight() {
-  int i = 40;
-  while (true) {
+  int i = 47;
+  for (i = 47; i < 93; i++) {
     pixels.setPixelColor(i, pixels.Color(255, 20, 147));
     pixels.show();
-    delay(1);
-    i++;
-    if ( i < 59) {
-      pixels.setPixelColor(i, pixels.Color(255, 20, 147));
-      delay(50);
-      pixels.setPixelColor(i - 1, pixels.Color(0, 0, 0));
-      pixels.show();
-    } else {
-      pixels.setPixelColor (i, pixels.Color(0, 0, 0));
-      pixels.show();
-      i = 50;
-    }
+    delay(250);
+    pixels.setPixelColor(i - 1, pixels.Color(0, 0, 0));
   }
+
+  //  while (true) {
+  //    pixels.setPixelColor(i, pixels.Color(255, 20, 147));
+  //    pixels.show();
+  //    delay(1);
+  //    i++;
+  //    if ( i < 59) {
+  //      pixels.setPixelColor(i, pixels.Color(255, 20, 147));
+  //      delay(50);
+  //      pixels.setPixelColor(i - 1, pixels.Color(0, 0, 0));
+  //      pixels.show();
+  //    } else {
+  //      pixels.setPixelColor (i, pixels.Color(0, 0, 0));
+  //      pixels.show();
+  //      i = 50;
+  //    }
+  //  }
 }
 
 void driveLeft() {
-  int i = 100;
-  while (true) {
+  int i = 0;
+  for (i = 0; i < 46; i++) {
     pixels.setPixelColor(i, pixels.Color(255, 20, 147));
     pixels.show();
-    delay(1);
-    i++;
-    if ( i < 119) {
-      pixels.setPixelColor(i, pixels.Color(255, 20, 147));
-      delay(50);
-      pixels.setPixelColor(i - 1, pixels.Color(0, 0, 0));
-      pixels.show();
-    } else {
-      pixels.setPixelColor (i, pixels.Color(0, 0, 0));
-      pixels.show();
-      i = 100;
-    }
+    delay(250);
   }
+
+  //  while (true) {
+  //    pixels.setPixelColor(i, pixels.Color(255, 20, 147));
+  //    pixels.show();
+  //    delay(1);
+  //    i++;
+  //    if ( i < 119) {
+  //      pixels.setPixelColor(i, pixels.Color(255, 20, 147));
+  //      delay(50);
+  //      pixels.setPixelColor(i - 1, pixels.Color(0, 0, 0));
+  //      pixels.show();
+  //    } else {
+  //      pixels.setPixelColor (i, pixels.Color(0, 0, 0));
+  //      pixels.show();
+  //      i = 100;
+  //    }
+  //  }
 }
 
 void ballIntake() {
   int i = 0;
-  while (true) {
+  for ( i = 0; i < 93; i++) {
     pixels.setPixelColor(i, pixels.Color(255, 165, 0));
-    pixels.show();
-    delay(1);
-    if (i < 119) {
-      pixels.setPixelColor(i, pixels.Color(255, 165, 0));
-      pixels.show();
-    } else {
-      for (i < 119; i++;) {
-        pixels.setPixelColor(i, pixels.Color(0, 0, 0));
-        pixels.show();
-        i = 0;
-      }
-    }
+    pixels.setPixelColor(i - 1, pixels.Color(0, 0, 0));
+    i = 0;
   }
+  //  while (true) {
+  //    pixels.setPixelColor(i, pixels.Color(255, 165, 0));
+  //    pixels.show();
+  //    delay(1);
+  //    if (i < 119) {
+  //      pixels.setPixelColor(i, pixels.Color(255, 165, 0));
+  //      pixels.show();
+  //    } else {
+  //      for (i < 119; i++;) {
+  //        pixels.setPixelColor(i, pixels.Color(0, 0, 0));
+  //        pixels.show();
+  //        i = 0;
+  //      }
+  //    }
+  //  }
 }
 
 void ballShoot() {
   int i = 0;
-  while (true) {
+  for ( i = 0; i < 93; i++) {
     pixels.setPixelColor(i, pixels.Color(255, 165, 0));
-    pixels.show();
-    delay(1);
-    if (i < 119) {
-      pixels.setPixelColor(i, pixels.Color(255, 165, 0));
-      pixels.show();
-    } else {
-      for (i < 119; i++;) {
-        pixels.setPixelColor(i, pixels.Color(0, 0, 0));
-        pixels.show();
-        i = 0;
-      }
-    }
+    pixels.setPixelColor(i - 1, pixels.Color(0, 0, 0));
+    i = 0;
   }
+  //  while (true) {
+  //    pixels.setPixelColor(i, pixels.Color(255, 165, 0));
+  //    pixels.show();
+  //    delay(1);
+  //    if (i < 119) {
+  //      pixels.setPixelColor(i, pixels.Color(255, 165, 0));
+  //      pixels.show();
+  //    } else {
+  //      for (i < 119; i++;) {
+  //        pixels.setPixelColor(i, pixels.Color(0, 0, 0));
+  //        pixels.show();
+  //        i = 0;
+  //      }
+  //    }
+  //  }
 }
 
 
@@ -505,4 +553,5 @@ uint8_t strip0_loop0_eff0() {
   else strip_0.effStep++;
   return 0x01;
 }
+
 
