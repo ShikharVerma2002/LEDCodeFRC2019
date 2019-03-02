@@ -81,15 +81,19 @@ void loop() {
   switch (state) {
     case 0:
       hatchGripped();
+      state = 255;
       break;
     case 1:
       hatchOpen();
+      state = 255;
       break;
     case 2:
       levelTwo();
+      state = 255;
       break;
     case 3:
       levelThree();
+      state = 255;
       break;
     //    case 4:
     //      driveForward();
@@ -224,12 +228,12 @@ void hatchGripped() {
 void hatchOpen() {
   int  i = 0;
   int  j = 93;
-  for (i = 0; i < 93; i++) {
-    pixels.setPixelColor(i, pixels.Color(0, 255, 0));
+  for (i = 0; i < 11; i++) {
+    pixels.setPixelColor(i, pixels.Color(255, 255, 0));
   }
   pixels.show();
   for (j = 93; j > 81; j--) {
-    pixels.setPixelColor(j, pixels.Color(0, 255, 0));
+    pixels.setPixelColor(j, pixels.Color(255, 255, 0));
   }
   pixels.show();
   //  while (true) {
@@ -270,10 +274,12 @@ void levelTwo() {
   int j = 47;
   for (i = 46; i > 0; i--) {
     pixels.setPixelColor(i, pixels.Color(0, 255, 0));
+    pixels.setPixelColor(i - 1, pixels.Color(0, 0, 0));
   }
   pixels.show();
   for (j = 47; j < 93; j++) {
     pixels.setPixelColor(j, pixels.Color(0, 255, 0));
+    pixels.setPixelColor(j - 1, pixels.Color(0, 0, 0));
   }
   pixels.show();
   //  while (true) {
